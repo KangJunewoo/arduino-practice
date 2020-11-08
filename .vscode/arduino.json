@@ -1,5 +1,5 @@
 {
     "board": "arduino:avr:uno",
-    "sketch": "2주차/led-rgb/led-RGB.ino",
-    "port": "/dev/tty.usbmodem14401"
+    "port": "/dev/tty.usbmodem14401",
+    "sketch": "sketch.ino"
 }

@@ -3,8 +3,6 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/libraries",
-                "/System/Library/Frameworks/Kernel.framework/Versions/A/Headers",
                 "/Applications/Arduino.app/Contents/Java/libraries",
                 "/Applications/Arduino.app/Contents/Java/hardware/tools/avr/avr/include",
                 "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/variants/standard"
@@ -12,7 +10,6 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
-                    "/System/Library/Frameworks/Kernel.framework/Versions/A/Headers",
                     "/Applications/Arduino.app/Contents/Java/"
                 ]
             },
