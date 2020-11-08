@@ -15,7 +15,7 @@ void setup() {
 
 void loop() {
   for(int i=45;i>=5;i-=10){
-    int val = (i / 100.0 * 255 + 0.5);
+    int val = (i / 100.0 * 255);
 
     for(int j=300;j>=100;j-=100){
       analogWrite(RLED, val);
