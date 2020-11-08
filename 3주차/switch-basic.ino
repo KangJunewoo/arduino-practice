@@ -7,6 +7,5 @@ void setup() {
 }
 
 void loop() {
-  if(digitalRead(BUTTON) == LOW) digitalWrite(LED, LOW);
-  else digitalWrite(LED, HIGH);
+  digitalWrite(LED, digitalRead(BUTTON));
 }
