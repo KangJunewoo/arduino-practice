@@ -17,8 +17,12 @@
             },
             "forcedInclude": [
                 "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/cores/arduino/Arduino.h"
+            ],
+            "defines":[
+                "USBCON"
             ]
         }
+        
     ],
     "version": 4
 }

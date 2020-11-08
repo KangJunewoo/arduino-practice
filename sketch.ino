@@ -1,78 +1,37 @@
-const int RLED  = 11;
-const int GLED  = 10;
-const int BLED  = 9;
-const int BUTTON = 2;
+int val = 0;
+const int BLED = 9;
+const int GLED = 10;
+const int RLED = 11;
+const int TEMP = 0;
 
-boolean lastButton = LOW;
-boolean currentButton = LOW;
-int ledMode = 0;
+const int LOWER_BOUND = 154;
+const int UPPER_BOUND = 157;
+// 재본 결과 low~high : 148~158
 
-void setup(){
-  pinMode(RLED, OUTPUT);
-  pinMode(GLED, OUTPUT);
+void setup() {
+  Serial.begin(9600);
   pinMode(BLED, OUTPUT);
-  pinMode(BUTTON, INPUT);
+  pinMode(GLED, OUTPUT);
+  pinMode(RLED, OUTPUT);
 }
 
-boolean debounce(boolean prevValue){
-  boolean currentValue = digitalRead(BUTTON);
-  if(prevValue != currentValue){
-    delay(5);
-    currentValue = digitalRead(BUTTON);
-  }
-  return currentValue;
-}
-
-void lightLED(boolean rv, boolean gv, boolean bv){
-  digitalWrite(RLED, !rv);
-  digitalWrite(GLED, !gv);
-  digitalWrite(BLED, !bv);
-}
-
-void setMode(int mode){
-  switch(mode){
-  case 1:
-    lightLED(HIGH, LOW, LOW);
-    break;
-
-  case 2:
-    lightLED(LOW, HIGH, LOW);
-    break;
-
-  case 3:
-    lightLED(LOW, LOW, HIGH);
-    break;
-
-  case 4:
-    lightLED(HIGH, LOW, HIGH);
-    break;
-
-  case 5:
-    lightLED(LOW, HIGH, HIGH);
-    break;
-
-  case 6:
-    lightLED(HIGH, HIGH, LOW);
-    break;
-
-  case 7:
-    lightLED(HIGH, HIGH, HIGH);
-    break;
+void loop() {
+  val = analogRead(TEMP);
+  Serial.println(val);
+  delay(1000);
   
-  default:
-    lightLED(LOW, LOW, LOW);
-    break;
-  }
-}
 
-void loop(){
-  currentButton = debounce(lastButton);
-  if(lastButton == LOW && currentButton == HIGH){
-    ledMode++;
+  if(val<LOWER_BOUND){
+    digitalWrite(RLED, !LOW);
+    digitalWrite(GLED, !LOW);
+    digitalWrite(BLED, !HIGH);
+  } else if(val > UPPER_BOUND){
+    digitalWrite(RLED, !HIGH);
+    digitalWrite(GLED, !LOW);
+    digitalWrite(BLED, !LOW);
+  } else{
+    digitalWrite(RLED, !LOW);
+    digitalWrite(GLED, !HIGH);
+    digitalWrite(BLED, !LOW);
   }
-  lastButton = currentButton;
-
-  if(ledMode == 8) ledMode = 0;
-  
-  setMode(ledMode);
 }
