@@ -1,77 +1,88 @@
-/**
- * 버튼을 눌러 rgb를 바꾸고
- * 밝기는 조도센서 따라가게.
-*/
-const int RLED = 9;
-const int GLED = 10;
-const int BLED = 11;
+// 사분음표 : 250ms
+#include "headers/pitches.h"
 
-const int BUTTON = 2;
-boolean lastButton = LOW;
-boolean currentButton = LOW;
+const int SPEAKER = 9;
+const int DO = 2;
+const int RE = 3;
+const int MI = 4;
+const int FA = 5;
+const int SOL = 6;
+const int LA = 7;
 
-boolean lastBts[3] = {HIGH, HIGH, HIGH};
-boolean currentBts[3] = {HIGH, HIGH, HIGH};
+int notes[] = {
+  NOTE_C4,NOTE_E4,NOTE_G4,NOTE_C4,NOTE_E4,NOTE_G4,NOTE_A4,NOTE_A4,NOTE_A4,NOTE_G4,
+  NOTE_F4,NOTE_F4,NOTE_F4,NOTE_E4,NOTE_E4,NOTE_E4,NOTE_D4,NOTE_D4,NOTE_D4,NOTE_C4,
+};
 
+int times[] = {
+  250,250,250,250,250,250,250,250,250,750,
+  250,250,250,250,250,250,250,250,250,1000,
+};
 
-const int LIGHT = 0;
-const int MIN_LIGHT = 20;
-const int MAX_LIGHT = 170;
-int val = 0;
-int ledMode = 1;
 void setup() {
-  Serial.begin(9600);
-  pinMode(RLED, OUTPUT);
-  pinMode(GLED, OUTPUT);
-  pinMode(BLED, OUTPUT);
-  pinMode(BUTTON, INPUT);
+  pinMode(DO, OUTPUT);
+  pinMode(RE, OUTPUT);
+  pinMode(MI, OUTPUT);
+  pinMode(FA, OUTPUT);
+  pinMode(SOL, OUTPUT);
+  pinMode(LA, OUTPUT);
+  
+  
+  
 }
 
 void loop() {
-  val = analogRead(LIGHT); // 조도센서 값을 읽어
-  Serial.println(val); // 시리얼에 뿌리고
-  delay(500);
+  digitalWrite(DO, LOW);
+  digitalWrite(RE, LOW);
+  digitalWrite(MI, LOW);
+  digitalWrite(FA, LOW);
+  digitalWrite(SOL, LOW);
+  digitalWrite(LA, LOW);
+  int notes_n = sizeof(notes)/sizeof(int);
+  for(int i=0;i<notes_n;i++){
+    switch(notes[i]){
+      case NOTE_C4:
+        digitalWrite(DO, HIGH);
+        break;
+      case NOTE_D4:
+        digitalWrite(RE, HIGH);
+        break;
+      case NOTE_E4:
+        digitalWrite(MI, HIGH);
+        break;
 
-  currentButton = debounce(lastButton);
-  if(lastButton == LOW && currentButton == HIGH){
-    ledMode ++;
-    if(ledMode == 4) ledMode = 1;
+      case NOTE_F4:
+        digitalWrite(FA, HIGH);
+        break;
+      case NOTE_G4:
+        digitalWrite(SOL, HIGH);
+        break;
+      case NOTE_A4:
+        digitalWrite(LA, HIGH);
+        break;
+    }
+    tone(SPEAKER, notes[i], times[i]);
+    delay(times[i]); // 실행시간을 벌어주는 역
+    switch(notes[i]){
+      case NOTE_C4:
+        digitalWrite(DO, LOW);
+        break;
+      case NOTE_D4:
+        digitalWrite(RE, LOW);
+        break;
+      case NOTE_E4:
+        digitalWrite(MI, LOW);
+        break;
+
+      case NOTE_F4:
+        digitalWrite(FA, LOW);
+        break;
+      case NOTE_G4:
+        digitalWrite(SOL, LOW);
+        break;
+      case NOTE_A4:
+        digitalWrite(LA, LOW);
+        break;
+    }
   }
-  lastButton = currentButton;
-  setMode(ledMode);
-  
-  val = map(val, MIN_LIGHT, MAX_LIGHT, 255, 0);
-  val = constrain(val, 0, 255);
-//  analogWrite(RLED, 255-val);
-//  analogWrite(GLED, 255-val);
-//  analogWrite(BLED, 255-val);
-
-  
-
-}
-
-void setMode(int mode){
-  
-  if(mode==1){
-    analogWrite(RLED, val);
-    digitalWrite(GLED, HIGH);
-    digitalWrite(BLED, HIGH);
-  } else if(mode==2){
-    digitalWrite(RLED, HIGH);
-    analogWrite(GLED, val);
-    digitalWrite(BLED, HIGH);
-  } else if(mode==3){
-    digitalWrite(RLED, HIGH);
-    digitalWrite(GLED, HIGH);
-    analogWrite(BLED, val);
-  }
-}
-
-boolean debounce(boolean last){
-  boolean current = digitalRead(BUTTON);
-  if(last!=current){
-    delay(5);
-    current = digitalRead(BUTTON);
-  }
-  return current;
 }
