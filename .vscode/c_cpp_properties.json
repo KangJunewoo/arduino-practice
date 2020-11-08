@@ -5,7 +5,9 @@
             "includePath": [
                 "/Applications/Arduino.app/Contents/Java/libraries",
                 "/Applications/Arduino.app/Contents/Java/hardware/tools/avr/avr/include",
-                "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/variants/standard"
+                "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/variants/standard",
+                "/Applications/Arduino.app/Contents/Java/hardware/arduino/avr/**",
+                "/Applications/Arduino.app/Contents/Java/tools/**"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
