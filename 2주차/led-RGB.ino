@@ -1,8 +1,3 @@
-/**
- * RGB 점멸 반복
- * with 1000, 800, 600, 400, 200ms delay
-*/
-
 const int RLED = 9;
 const int GLED = 10;
 const int BLED = 11;
